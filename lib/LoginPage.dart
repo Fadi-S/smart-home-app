@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_home/HomePage.dart';
 import 'package:smart_home/utils/request.dart';
 
@@ -27,13 +28,16 @@ class _LoginPageState extends State<LoginPage> {
   String? _invalid;
   bool _loading = false;
 
+
   void _login() async {
     setState(() {
       _invalid = null;
       _loading = true;
     });
 
+    final prefs = await SharedPreferences.getInstance();
     Request.domain = _ipAddressController.value.text;
+    prefs.setString("ip", Request.domain);
 
     String password = _passwordController.value.text;
 
@@ -92,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: const InputDecoration(
                   hintText: "IP Address",
                   border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
+                    borderSide: BorderSide(color: Colors.indigo),
                   ),
                 ),
               ),
@@ -109,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                   borderSide: BorderSide(color: Colors.red),
                 ),
                 border: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red),
+                  borderSide: BorderSide(color: Colors.indigo),
                 ),
               ),
             ),
